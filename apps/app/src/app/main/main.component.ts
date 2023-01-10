@@ -45,10 +45,10 @@ export default class MainComponent {
   substrateControl = new FormControl('');
 
   readonly wechselwirkungenColumns: (keyof WechselwirkungResult)[] = [
-    'enzym',
     'substrat',
-    'reason',
     'wert',
+    'reason',
+    'enzym',
   ];
   readonly filteredOptions$ = this.stateService.allSubstrate$.pipe(
     combineLatestWith(

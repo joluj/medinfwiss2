@@ -117,9 +117,22 @@
       </ng-container>
       <ng-container matColumnDef="wert">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Wert
+          Wirkung
         </mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.wert }}</mat-cell>
+        <mat-cell *matCellDef="let row">
+          <div [ngSwitch]="row.wert">
+            <ng-container *ngSwitchCase="-1"> Hemmung </ng-container>
+            <ng-container *ngSwitchCase="1">
+              schwache oder undefinierte Verstärkung
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+              Mittlere Verstärkung
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              Ausgeprägte Verstärkung
+            </ng-container>
+          </div>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row
