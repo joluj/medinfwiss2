@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTreeModule } from '@angular/material/tree';
-import { EnzymWechselwirkungenService } from '../state/EnzymWechselwirkungen.service';
+import { DataService } from '../state/data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -13,11 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./enzym-wechselwirkungen.component.scss'],
 })
 export class EnzymWechselwirkungenComponent {
-  readonly enzyme$ = this.enzymWechselwirkungenService.enzymWechselwirkungen;
+  readonly enzyme$ = this.dataService.enzymWechselwirkungen$;
 
-  constructor(
-    private readonly enzymWechselwirkungenService: EnzymWechselwirkungenService
-  ) {}
+  constructor(private readonly dataService: DataService) {}
 }
 
 export default EnzymWechselwirkungenComponent;

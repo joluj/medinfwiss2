@@ -18,6 +18,11 @@ import { RouterModule } from '@angular/router';
             import('./enzym-wechselwirkungen/enzym-wechselwirkungen.component'),
         },
         {
+          path: 'interaktionen',
+          loadComponent: () =>
+            import('./interaktionen/interaktionen.component'),
+        },
+        {
           path: '**',
           redirectTo: 'enzym-wechselwirkungen',
         },

@@ -4,6 +4,11 @@ import {
   EnzymWechselwirkungen,
   IEnzymWechselwirkungen,
 } from '../EnzymWechselwirkungen';
+import {
+  createInteraktionsList,
+  Interaktionen,
+  InteraktionsList,
+} from '../Interaktionen';
 
 export interface Wirkstoff {
   name: string;
@@ -32,8 +37,8 @@ function mapToWirkstoff(wirkstoffe: IEnzymWechselwirkungen): Wirkstoffe {
 @Injectable({
   providedIn: 'root',
 })
-export class EnzymWechselwirkungenService {
-  readonly enzymWechselwirkungen: Observable<Wirkstoffe> = of(
+export class DataService {
+  readonly enzymWechselwirkungen$: Observable<Wirkstoffe> = of(
     EnzymWechselwirkungen
   ).pipe(
     map((ww) => {
@@ -41,4 +46,8 @@ export class EnzymWechselwirkungenService {
     }),
     shareReplay(1)
   );
+
+  readonly interaktionen$: Observable<InteraktionsList> = of(
+    Interaktionen
+  ).pipe(map(createInteraktionsList));
 }

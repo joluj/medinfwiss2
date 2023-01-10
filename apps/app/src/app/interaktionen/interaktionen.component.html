@@ -1,0 +1,36 @@
+<h1>Interaktionen</h1>
+<div>
+  <p>
+    Nach Tabelle 4 (modifiziert): Positive Zahlen beschreiben Inhibitoren,
+    negative Zahlen Induktoren.
+  </p>
+  <p>
+    3: ausgeprägte Hemmung;<br />
+    2: mittlere Hemmung;<br />
+    1: schwache oder nicht definierte Hemmung;<br />
+    -1: undefinierte Induktion
+  </p>
+  <br />
+</div>
+
+<ul>
+  <ng-container *ngFor="let interaktion of interaktionen$ | async">
+    <ng-container
+      *ngTemplateOutlet="withChildren; context: { $implicit: interaktion }"
+    ></ng-container>
+  </ng-container>
+</ul>
+
+<ng-template #withChildren let-interaktion>
+  <li>
+    {{ interaktion.name }}
+    <span *ngIf="interaktion.value"> ({{ interaktion.value }}) </span>
+    <ul>
+      <li *ngFor="let c of interaktion.children">
+        <ng-container
+          *ngTemplateOutlet="withChildren; context: { $implicit: c }"
+        ></ng-container>
+      </li>
+    </ul>
+  </li>
+</ng-template>
