@@ -10,7 +10,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { combineLatestWith, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatestWith,
+  map,
+  startWith,
+  combineLatest,
+} from 'rxjs';
+import { MatTableModule } from '@angular/material/table';
+import { WechselwirkungResult } from '../calculateWechselwirkung';
+import { MatSortModule, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'medinfwiss2-main',
@@ -26,6 +35,8 @@ import { combineLatestWith, map } from 'rxjs';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatSortModule,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
@@ -33,9 +44,15 @@ import { combineLatestWith, map } from 'rxjs';
 export default class MainComponent {
   substrateControl = new FormControl('');
 
+  readonly wechselwirkungenColumns: (keyof WechselwirkungResult)[] = [
+    'enzym',
+    'substrat',
+    'reason',
+    'wert',
+  ];
   readonly filteredOptions$ = this.stateService.allSubstrate$.pipe(
     combineLatestWith(
-      this.substrateControl.valueChanges,
+      this.substrateControl.valueChanges.pipe(startWith('')),
       this.stateService.selectedPatient$
     ),
     map(([all, input, patient]) =>
@@ -46,6 +63,32 @@ export default class MainComponent {
         : []
     )
   );
+
+  readonly sorting = new BehaviorSubject<Sort>({
+    active: 'enzym',
+    direction: '',
+  });
+  readonly wechselwirkungen$: typeof this.stateService.wechselwirkungen$ =
+    combineLatest([this.stateService.wechselwirkungen$, this.sorting]).pipe(
+      map(([wws, sort]) => {
+        if (!wws) return null;
+        if (!sort.direction) {
+          return wws;
+        }
+
+        const key = sort.active as keyof WechselwirkungResult;
+        const sorted = wws
+          .slice()
+          .sort((a, b) =>
+            a[key].toLocaleString().localeCompare(b[key].toLocaleString())
+          );
+
+        if (sort.direction === 'asc') {
+          return sorted;
+        }
+        return sorted.reverse();
+      })
+    );
 
   constructor(readonly stateService: StateService) {}
 

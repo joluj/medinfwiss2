@@ -87,17 +87,45 @@
   </div>
 
   <div
-    class="wechselwirkungen"
-    *ngIf="stateService.wechselwirkungen$ | async; let wechselwirkungen"
+    class="wechselwirkungen spacer"
+    *ngIf="wechselwirkungen$ | async; let wechselwirkungen"
   >
     <h2>Erkannte Wechselwirkungen</h2>
 
-    <ol>
-      <li *ngFor="let ww of wechselwirkungen">
-        Die Wirkung von <b>{{ ww.substrat }}</b> könnte beeinflusst sein, da das
-        gleichzeitig verabreichte <b>{{ ww.reason }}</b> eine Wechselwirkung
-        beeinflussen kann ({{ ww.enzym }}).
-      </li>
-    </ol>
+    <mat-table
+      [dataSource]="wechselwirkungen"
+      matSort
+      (matSortChange)="sorting.next($event)"
+    >
+      <ng-container matColumnDef="enzym">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Enzym
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.enzym }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="substrat">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Wirkstoff
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.substrat }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="reason">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Grund
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.reason }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="wert">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Wert
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.wert }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="wechselwirkungenColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: wechselwirkungenColumns"></mat-row>
+    </mat-table>
   </div>
 </main>

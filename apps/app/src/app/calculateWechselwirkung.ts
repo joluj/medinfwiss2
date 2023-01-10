@@ -13,6 +13,7 @@ export type WechselwirkungResult = {
   enzym: string;
   substrat: string;
   reason: string;
+  wert: Interaktionswert;
 };
 
 export function createSubstrateMap(substrateList: SubstratList) {
@@ -96,7 +97,7 @@ export function calculateWechselwirkung(
 
   const results: WechselwirkungResult[] = [];
   for (const [enzym, substrates] of filteredSubstrate.entries()) {
-    for (const [reason] of Object.entries(
+    for (const [reason, wert] of Object.entries(
       filteredInteraktionen.get(enzym) ?? {}
     )) {
       for (const substrat of substrates) {
@@ -104,6 +105,7 @@ export function calculateWechselwirkung(
           enzym,
           substrat: substrat.name,
           reason,
+          wert,
         });
       }
     }
