@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./enzym-wechselwirkungen.component.scss'],
 })
 export class EnzymWechselwirkungenComponent {
-  readonly enzyme$ = this.dataService.enzymWechselwirkungen$;
+  readonly enzyme$ = this.dataService.substrate$;
 
   constructor(private readonly dataService: DataService) {}
 }

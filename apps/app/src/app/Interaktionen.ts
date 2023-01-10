@@ -11,10 +11,14 @@ export interface Interaktion {
   value: Interaktionswert;
 }
 
+export function isInteraktion(t: unknown): t is Interaktion {
+  return !!((t as Interaktion).name && (t as Interaktion).value);
+}
+
 export interface InteraktionsNode {
   name: string;
 
-  children?: InteraktionsList;
+  children: InteraktionsList;
 }
 
 export type InteraktionsList = (Interaktion | InteraktionsNode)[];

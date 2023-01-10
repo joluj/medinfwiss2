@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, shareReplay, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  shareReplay,
+  tap,
+} from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Patient } from './patient';
+import { calculateWechselwirkung } from '../calculateWechselwirkung';
+import { DataService } from './data.service';
 
 const STORAGE_KEYS = {
   PATIENTS: 'PATIENTS',
@@ -27,12 +36,27 @@ export class StateService {
     null
   );
 
-  readonly selectedPatient$ = combineLatest([
+  readonly selectedPatient$: Observable<Patient | undefined> = combineLatest([
     this.selectedPatientId$,
     this._patients$,
   ]).pipe(map(([id, patients]) => (id ? patients[id] : undefined)));
 
-  constructor() {
+  readonly wechselwirkungen$ = combineLatest([
+    this.dataService.substrate$,
+    this.dataService.interaktionen$,
+    this.selectedPatient$,
+  ]).pipe(
+    map(([substrate, interaktionen, patient]) => {
+      if (!patient) return null;
+      return calculateWechselwirkung(
+        substrate,
+        interaktionen,
+        patient.medikation
+      );
+    })
+  );
+
+  constructor(private readonly dataService: DataService) {
     const patients = localStorage.getItem(STORAGE_KEYS.PATIENTS);
     if (patients) {
       this._patients$.next(JSON.parse(patients));

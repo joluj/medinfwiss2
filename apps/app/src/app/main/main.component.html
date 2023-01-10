@@ -56,4 +56,19 @@
       </mat-list-item>
     </mat-list>
   </div>
+
+  <div
+    class="wechselwirkungen"
+    *ngIf="stateService.wechselwirkungen$ | async; let wechselwirkungen"
+  >
+    <h2>Erkannte Wechselwirkungen</h2>
+
+    <ol>
+      <li *ngFor="let ww of wechselwirkungen">
+        Die Wirkung von <b>{{ ww.substrat }}</b> könnte beeinflusst sein, da das
+        gleichzeitig verabreichte <b>{{ ww.reason }}</b> eine Wechselwirkung
+        beeinflussen kann ({{ ww.enzym }}).
+      </li>
+    </ol>
+  </div>
 </main>

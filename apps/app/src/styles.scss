@@ -34,7 +34,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
 // Reset
@@ -60,9 +60,15 @@ video {
 ul {
   padding-left: 2em;
 }
+ol {
+  margin-left: 2em;
+}
 
 h1 {
   font-size: 42px;
+}
+h2 {
+  font-size: 32px;
 }
 
 .spacer {

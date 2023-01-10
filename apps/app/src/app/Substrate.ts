@@ -1,8 +1,32 @@
-export interface IEnzymWechselwirkungen {
-  readonly [key: string]: (string | IEnzymWechselwirkungen)[];
+export interface ISubstrateTabelle {
+  readonly [key: string]: (string | ISubstrateTabelle)[];
 }
 
-export const EnzymWechselwirkungen: IEnzymWechselwirkungen = {
+export interface Substrat {
+  name: string;
+  isProDrug?: boolean;
+}
+
+export type SubstratList = (Substrat & {
+  children?: Substrat[];
+})[];
+
+export function toSubstratList(substrate: ISubstrateTabelle): SubstratList {
+  return Object.entries(substrate).reduce((prev, [key, value]) => {
+    const children: Substrat[] = value
+      .map((w) => {
+        if (typeof w === 'string') {
+          return { name: w, isProDrug: w.endsWith('*') };
+        }
+        return toSubstratList(w);
+      })
+      .flat();
+
+    return prev.concat({ name: key, children });
+  }, [] as SubstratList);
+}
+
+export const Substrate: ISubstrateTabelle = {
   CYP1A2: [
     'Clozapin',
     'Imipramin',
