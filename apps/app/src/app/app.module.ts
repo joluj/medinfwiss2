@@ -16,15 +16,22 @@ import { RouterModule } from '@angular/router';
           path: 'enzym-wechselwirkungen',
           loadComponent: () =>
             import('./enzym-wechselwirkungen/enzym-wechselwirkungen.component'),
+          title: 'Wechselwirkungen-Checker | Enzyme',
         },
         {
           path: 'interaktionen',
           loadComponent: () =>
             import('./interaktionen/interaktionen.component'),
+          title: 'Wechselwirkungen-Checker | Interaktionen',
+        },
+        {
+          path: '',
+          loadComponent: () => import('./main/main.component'),
+          title: 'Wechselwirkungen-Checker',
         },
         {
           path: '**',
-          redirectTo: 'enzym-wechselwirkungen',
+          redirectTo: '/',
         },
       ],
       { useHash: true }

@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+  <span>Wechselwirkungen-Checker</span>
+  <div class="spacer"></div>
+  <button
+    mat-button
+    aria-label="Enzyme"
+    matTooltip="Enzyme"
+    routerLink="/enzym-wechselwirkungen"
+  >
+    Enzyme
+  </button>
+  <button
+    mat-button
+    aria-label="Interaktionen"
+    matTooltip="Interaktionen"
+    routerLink="/interaktionen"
+  >
+    Interaktionen
+  </button>
+</mat-toolbar>
+
+<main>
+  <div class="menu-list patient-list">
+    <h3>Patienten</h3>
+
+    <mat-selection-list
+      [multiple]="false"
+      (selectionChange)="stateService.selectPatient($event.options[0].value)"
+    >
+      <mat-list-option
+        *ngFor="let patient of stateService.patients$ | async"
+        [value]="patient.id"
+      >
+        {{ patient.name }}
+      </mat-list-option>
+      <mat-list-item class="new-patient">
+        <button mat-stroked-button (click)="addPatient()">Neuer Patient</button>
+      </mat-list-item>
+    </mat-selection-list>
+  </div>
+
+  <div
+    class="menu-list medikation-list"
+    *ngIf="stateService.selectedPatient$ | async; let patient"
+  >
+    <h3>Medikation</h3>
+
+    <mat-list>
+      <mat-list-item *ngFor="let medikation of patient.medikation">
+        {{ medikation }}
+      </mat-list-item>
+      <mat-list-item class="new-medikation">
+        <button mat-stroked-button (click)="addMedikation(patient.id)">
+          Neue Medikation
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</main>

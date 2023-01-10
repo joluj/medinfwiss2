@@ -1,0 +1,15 @@
+@use '../theme' as theme;
+
+main {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.menu-list {
+  padding: 1em;
+  border-right: 2px theme.$app-primary-color solid;
+
+  h3 {
+    font-size: 24px;
+  }
+}
