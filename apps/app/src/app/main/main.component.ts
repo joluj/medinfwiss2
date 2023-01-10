@@ -7,6 +7,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { StateService } from '../state/state.service';
 import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { combineLatestWith, map } from 'rxjs';
 
 @Component({
   selector: 'medinfwiss2-main',
@@ -19,11 +23,30 @@ import { MatListModule } from '@angular/material/list';
     MatTooltipModule,
     RouterLink,
     MatListModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
 export default class MainComponent {
+  substrateControl = new FormControl('');
+
+  readonly filteredOptions$ = this.stateService.allSubstrate$.pipe(
+    combineLatestWith(
+      this.substrateControl.valueChanges,
+      this.stateService.selectedPatient$
+    ),
+    map(([all, input, patient]) =>
+      patient
+        ? all
+            .filter((s) => !patient.medikation.includes(s))
+            .filter((s) => s.includes(input ?? ''))
+        : []
+    )
+  );
+
   constructor(readonly stateService: StateService) {}
 
   addPatient() {
@@ -33,10 +56,7 @@ export default class MainComponent {
     }
   }
 
-  addMedikation(id: string) {
-    const name = window.prompt('Medikation');
-    if (name) {
-      this.stateService.addMedikation(id, name);
-    }
+  addMedikation(id: string, name: string) {
+    this.stateService.addMedikation(id, name);
   }
 }

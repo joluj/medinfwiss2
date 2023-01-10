@@ -9,11 +9,15 @@ import {
 } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Patient } from './patient';
-import { calculateWechselwirkung } from '../calculateWechselwirkung';
+import {
+  calculateWechselwirkung,
+  createSubstrateMap,
+} from '../calculateWechselwirkung';
 import { DataService } from './data.service';
 
 const STORAGE_KEYS = {
   PATIENTS: 'PATIENTS',
+  SELECTED_PATIENT_ID: 'SELECTED_PATIENT_ID',
 } as const;
 
 @Injectable({
@@ -24,7 +28,7 @@ export class StateService {
     {}
   );
 
-  readonly patients$ = this._patients$.pipe(
+  readonly patients$: Observable<Patient[]> = this._patients$.pipe(
     tap((ps) =>
       localStorage.setItem(STORAGE_KEYS.PATIENTS, JSON.stringify(ps))
     ),
@@ -39,7 +43,16 @@ export class StateService {
   readonly selectedPatient$: Observable<Patient | undefined> = combineLatest([
     this.selectedPatientId$,
     this._patients$,
-  ]).pipe(map(([id, patients]) => (id ? patients[id] : undefined)));
+  ]).pipe(
+    map(([id, patients]) => (id ? patients[id] : undefined)),
+    tap((p) => {
+      if (p) {
+        localStorage.setItem(STORAGE_KEYS.SELECTED_PATIENT_ID, p.id);
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.SELECTED_PATIENT_ID);
+      }
+    })
+  );
 
   readonly wechselwirkungen$ = combineLatest([
     this.dataService.substrate$,
@@ -56,10 +69,26 @@ export class StateService {
     })
   );
 
+  readonly allSubstrate$ = this.dataService.substrate$.pipe(
+    map((s) =>
+      Array.from(createSubstrateMap(s).values())
+        .flat()
+        .map((s) => s.name)
+    ),
+    // No duplicates
+    map((s) => Array.from(new Set(s).values())),
+    // Sort
+    map((s) => s.sort())
+  );
+
   constructor(private readonly dataService: DataService) {
     const patients = localStorage.getItem(STORAGE_KEYS.PATIENTS);
     if (patients) {
       this._patients$.next(JSON.parse(patients));
+    }
+    const id = localStorage.getItem(STORAGE_KEYS.SELECTED_PATIENT_ID);
+    if (id) {
+      this.selectPatient(id);
     }
   }
 
@@ -73,6 +102,7 @@ export class StateService {
       ...this._patients$.value,
       [id]: { id, name, medikation: [] },
     });
+    this.selectedPatientId$.next(id);
   }
 
   addMedikation(id: string, name: string) {
@@ -81,7 +111,19 @@ export class StateService {
 
     this._patients$.next({
       ...this._patients$.value,
-      [id]: { ...patient, medikation: patient.medikation.concat(name) },
+      [id]: { ...patient, medikation: patient.medikation.concat(name).sort() },
+    });
+  }
+  removeMedikation(id: string, name: string) {
+    const patient = this._patients$.value[id];
+    if (!patient) return;
+
+    this._patients$.next({
+      ...this._patients$.value,
+      [id]: {
+        ...patient,
+        medikation: patient.medikation.filter((m) => m !== name),
+      },
     });
   }
 }

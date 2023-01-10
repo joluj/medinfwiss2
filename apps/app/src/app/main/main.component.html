@@ -26,10 +26,12 @@
     <mat-selection-list
       [multiple]="false"
       (selectionChange)="stateService.selectPatient($event.options[0].value)"
+      aria-selected="false"
     >
       <mat-list-option
         *ngFor="let patient of stateService.patients$ | async"
         [value]="patient.id"
+        [selected]="(stateService.selectedPatient$ | async)?.id === patient.id"
       >
         {{ patient.name }}
       </mat-list-option>
@@ -45,14 +47,41 @@
   >
     <h3>Medikation</h3>
 
+    <mat-form-field>
+      <mat-label>Substrat</mat-label>
+      <input
+        type="text"
+        aria-label="Substrat"
+        matInput
+        [formControl]="substrateControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]="true">
+        <mat-option
+          *ngFor="let substrat of filteredOptions$ | async"
+          [value]="substrat"
+          (onSelectionChange)="
+            addMedikation(patient.id, $event.source.value);
+            substrateControl.setValue('')
+          "
+        >
+          {{ substrat }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
     <mat-list>
       <mat-list-item *ngFor="let medikation of patient.medikation">
-        {{ medikation }}
-      </mat-list-item>
-      <mat-list-item class="new-medikation">
-        <button mat-stroked-button (click)="addMedikation(patient.id)">
-          Neue Medikation
-        </button>
+        <mat-icon
+          matListItemIcon
+          class="clickable"
+          (click)="stateService.removeMedikation(patient.id, medikation)"
+        >
+          delete
+        </mat-icon>
+        <p matListItemTitle>
+          {{ medikation }}
+        </p>
       </mat-list-item>
     </mat-list>
   </div>

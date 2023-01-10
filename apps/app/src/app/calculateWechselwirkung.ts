@@ -15,6 +15,13 @@ export type WechselwirkungResult = {
   reason: string;
 };
 
+export function createSubstrateMap(substrateList: SubstratList) {
+  const plainSubstrate: SubstratMap = new Map();
+  for (const substrat of Object.values(substrateList)) {
+    addSubstrate(plainSubstrate, substrat.name, substrat.children ?? []);
+  }
+  return plainSubstrate;
+}
 function addSubstrate(map: SubstratMap, key: string, list: SubstratList) {
   for (const substrat of list) {
     if (substrat.children && substrat.children.length > 0) {
@@ -25,6 +32,19 @@ function addSubstrate(map: SubstratMap, key: string, list: SubstratList) {
   }
 }
 
+export function createInteraktionenMap(
+  list: InteraktionsList
+): InteraktionsMap {
+  const plainInteraktionen: InteraktionsMap = new Map();
+  for (const interaktion of Object.values(list)) {
+    addInteraktionen(
+      plainInteraktionen,
+      interaktion.name,
+      (interaktion as InteraktionsNode).children
+    );
+  }
+  return plainInteraktionen;
+}
 function addInteraktionen(
   map: InteraktionsMap,
   key: string,
@@ -46,19 +66,8 @@ export function calculateWechselwirkung(
   interaktionenList: InteraktionsList,
   substrateOfPatient: string[]
 ) {
-  const plainSubstrate: SubstratMap = new Map();
-  for (const substrat of Object.values(substrateList)) {
-    addSubstrate(plainSubstrate, substrat.name, substrat.children ?? []);
-  }
-
-  const plainInteraktionen: InteraktionsMap = new Map();
-  for (const interaktion of Object.values(interaktionenList)) {
-    addInteraktionen(
-      plainInteraktionen,
-      interaktion.name,
-      (interaktion as InteraktionsNode).children
-    );
-  }
+  const plainSubstrate = createSubstrateMap(substrateList);
+  const plainInteraktionen = createInteraktionenMap(interaktionenList);
 
   // Remove unused
   const filteredSubstrate: SubstratMap = new Map();

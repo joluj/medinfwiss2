@@ -71,6 +71,14 @@ h2 {
   font-size: 32px;
 }
 
+b {
+  font-weight: bold;
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+.clickable {
+  cursor: pointer;
 }
