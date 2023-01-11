@@ -34,7 +34,7 @@
             }
           ],
           "outputHashing": "all",
-          "baseHref": "/~sa63pata/medinfwiss2/"
+          "baseHref": "/medinfwiss2/"
         },
         "development": {
           "buildOptimizer": false,
