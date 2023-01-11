@@ -4,6 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,17 +28,25 @@ import { RouterModule } from '@angular/router';
           title: 'Wechselwirkungen-Checker | Interaktionen',
         },
         {
-          path: '',
+          path: 'app',
           loadComponent: () => import('./main/main.component'),
           title: 'Wechselwirkungen-Checker',
         },
         {
+          path: 'about',
+          loadComponent: () => import('./about/about.component'),
+          title: 'Wechselwirkungen-Checker | About',
+        },
+        {
           path: '**',
-          redirectTo: '/',
+          redirectTo: '/app',
         },
       ],
       { useHash: true }
     ),
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

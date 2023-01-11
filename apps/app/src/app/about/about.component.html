@@ -1,0 +1,64 @@
+<main>
+  <h1>About</h1>
+
+  <p>
+    Diese App wurde im Rahmen der Vorlesung
+    <a
+      href="https://univis.fau.de/form?__s=2&dsc=anew/lecture_view&lvs=med/IMSD/medinf/medizi&anonymous=1&ref=tlecture&sem=2022w&tdir=tech/lehran_1/immd/nebenf/medizi&__e=368"
+      target="_blank"
+      >MedInfWiss2</a
+    >
+    des
+    <a href="https://www.imi.med.fau.de/" target="_blank"
+      >Lehrstuhls für Medizinische Informatik</a
+    >
+    erstellt.
+  </p>
+  <p>
+    Ziel ist es, einen Automatismus zur Generierung von Warnhinweisen zu
+    erstellen. Die Daten beziehen sich auf den Artikel
+    <a
+      href="https://www.aerzteblatt.de/archiv/128411/Arzneimittelinteraktionen"
+      target="_blank"
+      >Arzneimittelinteraktionen - Prinzipien, Beispiele und klinische Folgen</a
+    >
+    des Ärzteblatts.
+  </p>
+
+  <h1>Daten</h1>
+  <p>
+    Die Daten wurden aus Tabelle 3 und 4 des oben verlinkten Artikels entnommen.
+  </p>
+  <div style="display: flex; gap: 1em">
+    <button
+      mat-raised-button
+      color="primary"
+      routerLink="/enzym-wechselwirkungen"
+    >
+      Wirkstoffe
+    </button>
+    <button mat-raised-button color="primary" routerLink="/interaktionen">
+      Interaktionen
+    </button>
+
+    <a
+      mat-raised-button
+      style="text-decoration: none"
+      color="primary"
+      aria-label="Lizenzen"
+      href="https://wwwcip.cs.fau.de/~sa63pata/medinfwiss2/3rdpartylicenses.txt"
+    >
+      Lizenzen
+    </a>
+    <a
+      mat-raised-button
+      style="text-decoration: none"
+      color="primary"
+      aria-label="Sourcecode"
+      href="https://github.com/joluj/medinfwiss2"
+      target="_blank"
+    >
+      Sourcecode
+    </a>
+  </div>
+</main>

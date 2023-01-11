@@ -1,0 +1,6 @@
+@use './theme' as theme;
+@use 'sass:map';
+
+.active {
+  background-color: map.get(theme.$app-primary, 700);
+}

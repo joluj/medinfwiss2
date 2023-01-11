@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
 import { StateService } from '../state/state.service';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
@@ -26,11 +23,8 @@ import { MatSortModule, Sort } from '@angular/material/sort';
   standalone: true,
   imports: [
     CommonModule,
-    MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule,
-    RouterLink,
     MatListModule,
     MatInputModule,
     MatAutocompleteModule,

@@ -1,1 +1,8 @@
+<mat-toolbar color="primary">
+  <span class="spacer"> {{ title$ | async }} </span>
+  <button mat-button routerLink="/app" routerLinkActive="active">App</button>
+  <button mat-button routerLink="/about" routerLinkActive="active">
+    About
+  </button>
+</mat-toolbar>
 <router-outlet></router-outlet>
