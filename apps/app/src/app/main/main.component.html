@@ -27,10 +27,10 @@
     <h3>Medikation</h3>
 
     <mat-form-field>
-      <mat-label>Substrat</mat-label>
+      <mat-label>Wirkstoff</mat-label>
       <input
         type="text"
-        aria-label="Substrat"
+        aria-label="Wirkstoff"
         matInput
         [formControl]="substrateControl"
         [matAutocomplete]="auto"
@@ -70,6 +70,7 @@
     *ngIf="wechselwirkungen$ | async; let wechselwirkungen"
   >
     <h2>Erkannte Wechselwirkungen</h2>
+    <p>Die mit * markierten Medikationen sind prodrugs.</p>
 
     <mat-table
       [dataSource]="wechselwirkungen"

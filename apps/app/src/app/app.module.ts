@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule.forRoot(
       [
         {
-          path: 'enzym-wechselwirkungen',
+          path: 'enzym-wirkstoffe',
           loadComponent: () =>
             import('./enzym-wechselwirkungen/enzym-wechselwirkungen.component'),
           title: 'Wechselwirkungen-Checker | Enzyme',
