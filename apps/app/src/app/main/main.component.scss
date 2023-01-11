@@ -25,3 +25,15 @@ table {
 a {
   text-decoration: none;
 }
+
+@media screen and (max-width: 950px) {
+  main {
+    min-height: unset;
+    flex-direction: column;
+  }
+
+  .menu-list {
+    border-right: none;
+    border-bottom: 2px theme.$app-primary-color solid;
+  }
+}
