@@ -33,9 +33,9 @@
   >
     <h3>
       Medikation
-      <mat-icon matTooltip="Hier werden nur Wirkstoffe aus Tabelle 4 angezeigt"
-        >help</mat-icon
-      >
+      <mat-icon matTooltip="Hier werden nur Wirkstoffe aus Tabelle 4 angezeigt">
+        help
+      </mat-icon>
     </h3>
 
     <mat-form-field>
@@ -103,13 +103,20 @@
       </ng-container>
       <ng-container matColumnDef="reason">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Grund
+          Grund&nbsp;
+          <mat-icon
+            matTooltip="Kursiv geschriebene Einträge sind Induktoren, der Rest Inhibitoren"
+          >
+            help
+          </mat-icon>
         </mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.reason }}</mat-cell>
+        <mat-cell *matCellDef="let row" [class.induktor]="row.wert < 0">
+          {{ row.reason }}
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="wert">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Wirkung
+          Wirkungsänderung
         </mat-header-cell>
         <mat-cell *matCellDef="let row">
           <div>
