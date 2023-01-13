@@ -9,6 +9,8 @@ import { Substrat, SubstratList } from './Substrate';
 type SubstratMap = Map<string, Substrat[]>;
 type InteraktionsMap = Map<string, { [name: string]: Interaktionswert }>;
 
+const removeStar = (input: string) => input.replace('*', '');
+
 export type WechselwirkungResult = {
   enzym: string;
   substrat: string;
@@ -16,7 +18,7 @@ export type WechselwirkungResult = {
   wert: Interaktionswert;
 };
 
-export function createSubstrateMap(substrateList: SubstratList) {
+export function createWirkstoffeMap(substrateList: SubstratList) {
   const plainSubstrate: SubstratMap = new Map();
   for (const substrat of Object.values(substrateList)) {
     addSubstrate(plainSubstrate, substrat.name, substrat.children ?? []);
@@ -67,24 +69,28 @@ export function calculateWechselwirkung(
   interaktionenList: InteraktionsList,
   substrateOfPatient: string[]
 ) {
-  const plainSubstrate = createSubstrateMap(substrateList);
+  const plainWirkstoffe = createWirkstoffeMap(substrateList);
   const plainInteraktionen = createInteraktionenMap(interaktionenList);
 
   // Remove unused
-  const filteredSubstrate: SubstratMap = new Map();
+  const filteredWirkstoffe: SubstratMap = new Map();
   const filteredInteraktionen: InteraktionsMap = new Map();
 
-  for (const [key, value] of plainSubstrate.entries()) {
-    filteredSubstrate.set(
+  for (const [key, value] of plainWirkstoffe.entries()) {
+    filteredWirkstoffe.set(
       key,
-      value.filter((x) => substrateOfPatient.includes(x.name))
+      value.filter((x) =>
+        substrateOfPatient.map(removeStar).includes(removeStar(x.name))
+      )
     );
   }
   for (const [key, interaktionen] of plainInteraktionen.entries()) {
     filteredInteraktionen.set(
       key,
       Object.entries(interaktionen)
-        .filter(([name]) => substrateOfPatient.includes(name))
+        .filter(([name]) =>
+          substrateOfPatient.map(removeStar).includes(removeStar(name))
+        )
         .reduce(
           (prev, [key, value]) => ({
             ...prev,
@@ -96,7 +102,7 @@ export function calculateWechselwirkung(
   }
 
   const results: WechselwirkungResult[] = [];
-  for (const [enzym, substrates] of filteredSubstrate.entries()) {
+  for (const [enzym, substrates] of filteredWirkstoffe.entries()) {
     for (const [reason, wert] of Object.entries(
       filteredInteraktionen.get(enzym) ?? {}
     )) {

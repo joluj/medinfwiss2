@@ -18,6 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { WechselwirkungResult } from '../calculateWechselwirkung';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { InteraktionswertPipe } from './Interaktionswert.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'medinfwiss2-main',
@@ -33,6 +34,7 @@ import { InteraktionswertPipe } from './Interaktionswert.pipe';
     MatTableModule,
     MatSortModule,
     InteraktionswertPipe,
+    MatTooltipModule,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
@@ -46,19 +48,20 @@ export default class MainComponent {
     'reason',
     'enzym',
   ];
-  readonly filteredOptions$ = this.stateService.allSubstrate$.pipe(
-    combineLatestWith(
-      this.substrateControl.valueChanges.pipe(startWith('')),
-      this.stateService.selectedPatient$
-    ),
-    map(([all, input, patient]) =>
-      patient
-        ? all
-            .filter((s) => !patient.medikation.includes(s))
-            .filter((s) => s.includes(input ?? ''))
-        : []
-    )
-  );
+  readonly filteredOptions$ =
+    this.stateService.allWirkstoffeWithInteraktionen$.pipe(
+      combineLatestWith(
+        this.substrateControl.valueChanges.pipe(startWith('')),
+        this.stateService.selectedPatient$
+      ),
+      map(([all, input, patient]) =>
+        patient
+          ? all
+              .filter((s) => !patient.medikation.includes(s))
+              .filter((s) => s.includes(input ?? ''))
+          : []
+      )
+    );
 
   readonly sorting = new BehaviorSubject<Sort>({
     active: 'enzym',

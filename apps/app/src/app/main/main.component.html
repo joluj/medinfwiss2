@@ -31,7 +31,12 @@
     class="menu-list medikation-list"
     *ngIf="stateService.selectedPatient$ | async; let patient"
   >
-    <h3>Medikation</h3>
+    <h3>
+      Medikation
+      <mat-icon matTooltip="Hier werden nur Wirkstoffe aus Tabelle 4 angezeigt"
+        >help</mat-icon
+      >
+    </h3>
 
     <mat-form-field>
       <mat-label>Wirkstoff</mat-label>
