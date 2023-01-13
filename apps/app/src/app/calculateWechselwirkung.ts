@@ -16,6 +16,7 @@ export type WechselwirkungResult = {
   substrat: string;
   reason: string;
   wert: Interaktionswert;
+  isInduktor: boolean;
 };
 
 export function createWirkstoffeMap(substrateList: SubstratList) {
@@ -112,6 +113,7 @@ export function calculateWechselwirkung(
           substrat: substrat.name,
           reason,
           wert: substrat.isProDrug ? ((wert * -1) as Interaktionswert) : wert,
+          isInduktor: wert < 0,
         });
       }
     }

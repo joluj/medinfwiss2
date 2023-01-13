@@ -110,7 +110,7 @@
             help
           </mat-icon>
         </mat-header-cell>
-        <mat-cell *matCellDef="let row" [class.induktor]="row.wert < 0">
+        <mat-cell *matCellDef="let row" [class.induktor]="row.isInduktor">
           {{ row.reason }}
         </mat-cell>
       </ng-container>
