@@ -12,6 +12,7 @@ import { Patient } from './patient';
 import {
   calculateWechselwirkung,
   createInteraktionenMap,
+  createWirkstoffeMap,
 } from '../calculateWechselwirkung';
 import { DataService } from './data.service';
 
@@ -69,20 +70,30 @@ export class StateService {
     })
   );
 
-  readonly allWirkstoffeWithInteraktionen$ =
+  readonly allWirkstoffeWithInteraktionen$ = combineLatest([
     this.dataService.interaktionen$.pipe(
       map((s) =>
         Array.from(createInteraktionenMap(s).values())
           .map((s) => Object.keys(s))
           .flat()
-      ),
-      // Remove stars
-      map((s) => s.map((s) => s.replace('*', ''))),
-      // No duplicates
-      map((s) => Array.from(new Set(s).values())),
-      // Sort
-      map((s) => s.sort())
-    );
+      )
+    ),
+    this.dataService.substrate$.pipe(
+      map((s) =>
+        Array.from(createWirkstoffeMap(s).values())
+          .flat()
+          .map((s) => s.name)
+      )
+    ),
+  ]).pipe(
+    map(([a, b]) => [...a, ...b]),
+    // Remove stars
+    map((s) => s.map((s) => s.replace('*', ''))),
+    // No duplicates
+    map((s) => Array.from(new Set(s).values())),
+    // Sort
+    map((s) => s.sort())
+  );
 
   constructor(private readonly dataService: DataService) {
     const patients = localStorage.getItem(STORAGE_KEYS.PATIENTS);

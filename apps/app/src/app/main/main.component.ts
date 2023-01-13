@@ -58,7 +58,9 @@ export default class MainComponent {
         patient
           ? all
               .filter((s) => !patient.medikation.includes(s))
-              .filter((s) => s.includes(input ?? ''))
+              .filter((s) =>
+                s.toLowerCase().includes(input?.toLowerCase() ?? '')
+              )
           : []
       )
     );
