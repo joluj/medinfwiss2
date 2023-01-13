@@ -1,5 +1,5 @@
 export type Inhibitor = 1 | 2 | 3;
-export type Induktor = -1;
+export type Induktor = -1 | -2 | -3;
 export type Interaktionswert = Inhibitor | Induktor;
 
 export interface IInteraktionen {

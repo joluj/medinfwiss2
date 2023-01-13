@@ -105,7 +105,7 @@ export function calculateWechselwirkung(
           enzym,
           substrat: substrat.name,
           reason,
-          wert,
+          wert: substrat.isProDrug ? ((wert * -1) as Interaktionswert) : wert,
         });
       }
     }

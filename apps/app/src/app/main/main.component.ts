@@ -17,6 +17,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { WechselwirkungResult } from '../calculateWechselwirkung';
 import { MatSortModule, Sort } from '@angular/material/sort';
+import { InteraktionswertPipe } from './Interaktionswert.pipe';
 
 @Component({
   selector: 'medinfwiss2-main',
@@ -31,6 +32,7 @@ import { MatSortModule, Sort } from '@angular/material/sort';
     ReactiveFormsModule,
     MatTableModule,
     MatSortModule,
+    InteraktionswertPipe,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
