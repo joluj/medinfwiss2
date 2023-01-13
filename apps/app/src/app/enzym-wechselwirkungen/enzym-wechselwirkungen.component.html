@@ -1,20 +1,26 @@
-<ul>
-  <ng-container *ngFor="let enzym of enzyme$ | async">
-    <ng-container
-      *ngTemplateOutlet="withChildren; context: { $implicit: enzym }"
-    ></ng-container>
-  </ng-container>
-</ul>
+<main>
+  <h1>Wirkstoffe</h1>
+  <p>Die folgenden Wirkstoffe werden auf Wechselwirkungen gecheckt.</p>
+  <p>Prodrugs sind mit "*" markiert.</p>
+  <br />
+  <ul>
+    <ng-container *ngFor="let enzym of enzyme$ | async">
+      <ng-container
+        *ngTemplateOutlet="withChildren; context: { $implicit: enzym }"
+      ></ng-container>
+    </ng-container>
+  </ul>
 
-<ng-template #withChildren let-enzym>
-  <li>
-    {{ enzym.name }}
-    <ul>
-      <li *ngFor="let c of enzym.children">
-        <ng-container
-          *ngTemplateOutlet="withChildren; context: { $implicit: c }"
-        ></ng-container>
-      </li>
-    </ul>
-  </li>
-</ng-template>
+  <ng-template #withChildren let-enzym>
+    <li>
+      {{ enzym.name }}
+      <ul>
+        <li *ngFor="let c of enzym.children">
+          <ng-container
+            *ngTemplateOutlet="withChildren; context: { $implicit: c }"
+          ></ng-container>
+        </li>
+      </ul>
+    </li>
+  </ng-template>
+</main>

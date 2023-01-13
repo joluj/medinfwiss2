@@ -19,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
           path: 'enzym-wirkstoffe',
           loadComponent: () =>
             import('./enzym-wechselwirkungen/enzym-wechselwirkungen.component'),
-          title: 'Wechselwirkungen-Checker | Enzyme',
+          title: 'Wechselwirkungen-Checker | Wirkstoffe',
         },
         {
           path: 'interaktionen',
