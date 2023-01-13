@@ -105,6 +105,12 @@ export class StateService {
     this.selectedPatientId$.next(id);
   }
 
+  removePatient(id: string) {
+    const pats = { ...this._patients$.value };
+    delete pats[id];
+    this._patients$.next(pats);
+  }
+
   addMedikation(id: string, name: string) {
     const patient = this._patients$.value[id];
     if (!patient) return;

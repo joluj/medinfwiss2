@@ -12,6 +12,13 @@
         [value]="patient.id"
         [selected]="(stateService.selectedPatient$ | async)?.id === patient.id"
       >
+        <mat-icon
+          matListItemIcon
+          class="clickable"
+          (click)="stateService.removePatient(patient.id)"
+        >
+          delete
+        </mat-icon>
         {{ patient.name }}
       </mat-list-option>
       <mat-list-item class="new-patient">
