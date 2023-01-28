@@ -19,23 +19,23 @@ import { MatIconModule } from '@angular/material/icon';
           path: 'enzym-wirkstoffe',
           loadComponent: () =>
             import('./enzym-wechselwirkungen/enzym-wechselwirkungen.component'),
-          title: 'Wechselwirkungen-Checker | Wirkstoffe',
+          title: 'Wechselwirkungswarner | Wirkstoffe',
         },
         {
           path: 'interaktionen',
           loadComponent: () =>
             import('./interaktionen/interaktionen.component'),
-          title: 'Wechselwirkungen-Checker | Interaktionen',
+          title: 'Wechselwirkungswarner | Interaktionen',
         },
         {
           path: 'app',
           loadComponent: () => import('./main/main.component'),
-          title: 'Wechselwirkungen-Checker',
+          title: 'Wechselwirkungswarner',
         },
         {
           path: 'about',
           loadComponent: () => import('./about/about.component'),
-          title: 'Wechselwirkungen-Checker | About',
+          title: 'Wechselwirkungswarner | About',
         },
         {
           path: '**',
