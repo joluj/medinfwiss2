@@ -14,3 +14,27 @@ You can find a demo here: https://joluj.github.io/medinfwiss2/.
 2. Install development dependencies `yarn install`
 3. Run `yarn nx serve app`
 4. Open your app on `http://localhost:4444/`
+
+## Showcase
+
+### 1. Patienten hinzufügen
+
+![Add patient](docs/add-patient.png)
+
+### 2. Medikation hinzufügen
+
+Hier werden alle Wirkstoffe aus Tabelle 3 und 4 angezeigt.
+
+![Add Medikation](docs/add-medikation.png)
+
+### 3. Wechselwirkungen einsehen
+
+Hier können alle Wechselwirkungen der Medikation eingesehen werden.
+
+Angezeigt wird, welcher Wirkstoff (Spalte *Wirkstoff*) in der Wirkung verändert wird (Spalte *Wirkungsänderung*). Die Änderung wird durch eine Hemmung oder Verstärkung am Enzym (Spalte *Enzym*) des Wirkstoffes aus der Spalte *Grund* hervorgerufen.
+
+Wirkstoffe, die Produgs sind, werden mit Sternchen ("*") markiert (hier: Clopidogrel).
+
+In der Spalte *Grund* werden Induktoren kursiv geschrieben, Inhibitoren normal.
+
+![View Wechselwirkungen](docs/view-wechselwirkungen.png)
